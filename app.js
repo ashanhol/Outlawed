@@ -115,11 +115,72 @@ bot.dialog('/canVent', [
     },
     function (session, results) {
         //What species are you?
-        session.send('A species');
-        session.endDialog();        
+        if(results.response.toLowerCase().includes('lyphian')){
+            session.beginDialog('/lyphian');
+        }
+        else if(results.response.toLowerCase().includes('safonian')){
+            session.beginDialog('/safonian');
+
+        }
+        else if(results.response.toLowerCase().includes('human')){
+            session.beginDialog('/human');
+
+        }
+        else{
+            session.beginDialog('/etc');
+        }
     }
 ]);
 
 //-------------------
 /*Species*/
 //-------------------
+/*User answers not lyphian, safonian, or human */
+bot.dialog('/etc', [
+    function (session) {
+        builder.Prompts.confirm(session, 'Oh... I\'ve never heard of you, sorry. You\'re not anti-Safonic, are you?');
+    },
+    function (session, results) {
+        //space homophobic
+        if(results.response){
+            session.beginDialog('/antisafonic');
+        }
+        else{ //tolerant
+            session.send('tolerant left');
+        }
+      
+    }
+]);
+
+//anti safonic
+bot.dialog('/antisafonic', [
+    function (session) {
+        session.send('Oh ok well. Bye, I guess.');
+        session.send('...');
+        session.send('Oh my &ast;GENTLY CARESS&ast;');
+        builder.Prompts.confirm(session, 'Are you still here?');
+    },
+    function (session, results) {
+        //are here
+        if(results.response){
+            session.send('Oh cool.');
+            session.send('Well something\'s wrong with my ship and');
+            session.send('Not sure why I\'m telling you about this.');
+            session.send('Listen if I\'m about to die, or whatever. Maybe you could try to be like, less of a hateful person in the future?');
+            session.send('In my honor?');
+            session.send('Nevermind, it doesn\'t matter I guess');          
+            session.endConversation('Goodbye.');
+        }
+        else{ //aren't here
+            session.send('Wow uh');
+            session.send('No need to be a &ast;GENITAL&ast; about it.');
+            session.send('I just...');
+            session.send('Something\'s wrong with my ship and ');
+            session.send('I don\'t know why I\'m telling you this. Kinda wish I wasn\'t spending my last minutes talking to a total &ast;VULGAR BODY DESCRIPTION&ast;!!');
+            session.send('I\'m just gonna.');
+            session.endConversation('Goodbye.');
+
+        }
+      
+    }
+]);
