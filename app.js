@@ -146,13 +146,15 @@ bot.dialog('/etc', [
             session.beginDialog('/antisafonic');
         }
         else{ //tolerant
-            session.send('tolerant left');
+            session.send('Cool. I\'ve had enough trouble with my stupid Lyphian family anyway. '+
+            'Ugh older Lyphians are so old school. My dumb parents found out that I\'m on my way to '+
+            'meet a Safonian through the Match Alliance Interface and disabled my ship\'s Automatic Wormhole Generator.');
+            session.beginDialog('/shipBlueprint', 1); //to to ship blueprint
         }
-      
     }
 ]);
 
-//anti safonic
+//space homophobic
 bot.dialog('/antisafonic', [
     function (session) {
         session.send('Oh ok well. Bye, I guess.');
@@ -182,5 +184,46 @@ bot.dialog('/antisafonic', [
 
         }
       
+    }
+]);
+
+
+/*Space blueprint function. Different dialog depending on which route- pass through args */
+bot.dialog('/shipBlueprint', [
+    function (session, args) {
+        //args will let us know which of the blueprint dialogs we're on.
+        session.dialogData.blueprintThread = args; 
+        switch(session.dialogData.blueprintThread){
+            case 1:
+                session.send('Lucky for me, there\'s nothing stopping me from doing it manually! I looked up on the '+
+                '&ast;INTERGALACTIC LATTICE&ast; (GALAT) how to bypass the AWG Engine to rip my own Wormhole.')
+                builder.Prompts.text(session, 'Where are my manners, I\'ve been rambling on about space mechanics and never asked if you\'re into ships!');
+                break;
+
+        }
+    }, 
+    function(session, results){
+        //knows ship name
+        if(results.response.toLowerCase().includes('20xd6 staripper')){
+            session.send('Oh wow that\'s what I\'ve got here. It\'s cool to meet a fellow enthusiast. Here\'s the blueprint for what I\'m looking at.');
+            //TODO: PUT BLUEPRINT PIC IN
+            switch(session.dialogData.blueprintThread){
+            case 1:
+                session.send(' You see the X-like thing? Those are levers. Right now it\'s set to direct the '+
+                'Ytterbium into the AWG, but if I flip the bottom switch, it will redirect it... ');
+                session.send('Got it! Yes! I felt the engine spark to life! I\'m opening a wormhole now... ');
+                session.endConversation('Oh no. That wasn\'t a spark. More like a quake...');
+                break;
+
+            }
+        }
+        else{ //doesn't know ship name
+            session.send('Haha it\'s cool if you don\'t actually know much about ships. My ship here is a 20XD6 Staripper. But I named her Lannery.');
+            session.send('My parents tried to stop me but I\'m too smart for them! I actually want to be a mechanic someday.');
+            session.send('Ok, I made the changes. Should\'ve fixed the ship, time to take off! Wish me luck!');
+            session.send('...');
+            session.send('Oh no. Oh &ast;EXCREMENT.&ast;');
+            session.endConversation('I hate to admit it, but uh. I can\'t figure out these readings. I messed up the bypass somehow? This looks bad... ');
+        }
     }
 ]);
