@@ -1,0 +1,32 @@
+{
+  "name": "outlawed",
+  "version": "1.0.0",
+  "description": "Outlawed Bot Game",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashanhol/Outlawed.git"
+  },
+  "keywords": [
+    "bots",
+    "bot",
+    "framework",
+    "microsoft",
+    "bot",
+    "framework",
+    "games"
+  ],
+  "author": "Adina Shanholtz and Emma Conner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ashanhol/Outlawed/issues"
+  },
+  "homepage": "https://github.com/ashanhol/Outlawed#readme",
+  "dependencies": {
+    "botbuilder": "^3.8.3",
+    "restify": "^4.3.0"
+  }
+}
