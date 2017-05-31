@@ -187,7 +187,9 @@ bot.dialog('/antisafonic', [
     }
 ]);
 
-
+//-------------------
+/*Blueprint*/
+//-------------------
 /*Space blueprint function. Different dialog depending on which route- pass through args */
 bot.dialog('/shipBlueprint', [
     function (session, args) {
