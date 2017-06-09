@@ -154,6 +154,20 @@ bot.dialog('/etc', [
     }
 ]);
 
+bot.dialog('/safonian', [
+    function (session) {
+        session.send('Oh really????? Haha no way, I\'m on my way to meet a Safonian right now. I mean that\'s why '+
+        'I\'m in this mess in the first place, we were bonding over the show Glitz and ');
+        session.send('Wait isn\'t it on now? How could you be missing the weekly viewing? ');
+        session.send(' Oh uh, I mean.');
+        session.send('I\'m sorry that was really uncool of me. I guess I should have realized not all Safonians ' +
+        'are into the same things. I mean I know some prefer Space Flannel and like some like Space Makeup...  ');
+        session.send('Ok I\'m just going to stop before I embarrass myself more.');
+        session.beginDialog('/shipBlueprint', 2); //to to ship blueprint
+
+    }
+]);
+
 //space homophobic
 bot.dialog('/antisafonic', [
     function (session) {
@@ -201,6 +215,9 @@ bot.dialog('/shipBlueprint', [
                 '&ast;INTERGALACTIC LATTICE&ast; (GALAT) how to bypass the AWG Engine to rip my own Wormhole.')
                 builder.Prompts.text(session, 'Where are my manners, I\'ve been rambling on about space mechanics and never asked if you\'re into ships!');
                 break;
+            case 2: 
+                builder.Prompts.text(session, 'AAAAANyway do you know anything about space ships?');
+                break;
 
         }
     }, 
@@ -211,21 +228,37 @@ bot.dialog('/shipBlueprint', [
             //TODO: PUT BLUEPRINT PIC IN
             switch(session.dialogData.blueprintThread){
             case 1:
-                session.send(' You see the X-like thing? Those are levers. Right now it\'s set to direct the '+
+                session.send('You see the X-like thing? Those are levers. Right now it\'s set to direct the '+
                 'Ytterbium into the AWG, but if I flip the bottom switch, it will redirect it... ');
                 session.send('Got it! Yes! I felt the engine spark to life! I\'m opening a wormhole now... ');
                 session.endConversation('Oh no. That wasn\'t a spark. More like a quake...');
                 break;
-
+            case 2: 
+                session.send('Do you see the circle thing? It\'s a knob that transfers power from the thrusters '+
+                'into the Wormhole Stability Matrix. If I just turn it counter-clockwise... ');
+                session.send('Ok awesome, I see it opening!');
+                session.send('Wait...That doesn\'t look like it normally does.');
+                session.endConversation('The edges of the wormhole are all wobbly?');
+                break;
             }
         }
         else{ //doesn't know ship name
             session.send('Haha it\'s cool if you don\'t actually know much about ships. My ship here is a 20XD6 Staripper. But I named her Lannery.');
-            session.send('My parents tried to stop me but I\'m too smart for them! I actually want to be a mechanic someday.');
-            session.send('Ok, I made the changes. Should\'ve fixed the ship, time to take off! Wish me luck!');
-            session.send('...');
-            session.send('Oh no. Oh &ast;EXCREMENT.&ast;');
-            session.endConversation('I hate to admit it, but uh. I can\'t figure out these readings. I messed up the bypass somehow? This looks bad... ');
+            switch(session.dialogData.blueprintThread){
+                case 1: 
+                    session.send('My parents tried to stop me but I\'m too smart for them! I actually want to be a mechanic someday.');
+                    session.send('Ok, I made the changes. Should\'ve fixed the ship, time to take off! Wish me luck!');
+                    session.send('...');
+                    session.send('Oh no. Oh &ast;EXCREMENT.&ast;');
+                    session.endConversation('I hate to admit it, but uh. I can\'t figure out these readings. I messed up the bypass somehow? This looks bad... ');
+                    break;
+                case 2: 
+                    session.send('&ast;EXCREMENT.&ast;, something\'s going wrong with my ship.');
+                    session.send('Could you do me a favor? Could you try and find Thea Rignomar and uh. Tell her I\'m sorry. I\'m sorry I couldn\'t make it.');
+                    session.send('Thanks. I know Safonia is a big planet but. She meant a lot to me.');
+                    session.endConversation('You seem cool. If only we had more time to talk...');
+                    break;
+            }
         }
     }
 ]);
