@@ -240,7 +240,8 @@ bot.dialog('/thonra', [
 		builder.Prompts.text(session, 'But anyway. No one really cares about us. You got a favorite show or something? We more or less get the same media as the rest of the Thonra region.');
 	},
 	function(session, results){
-		if(results.response.toLowerCase().includes('outlaws and in-laws')){
+		var oAndI = /outlaws\s?(and|&)\s?in-?laws/i;
+		if(oAndI.test(results.response)){
 			session.send('Me too!!!! Who\'s your favorite character? Mine\'s Lannery, but my girlfriend likes Kh\'atyan.');
 			session.send('Yes I know, my username is Kh\'atyan because of that... so sappy. But honestly, all the characters are perfect. I really can\'t pick, it\'s not fair.');
 			session.send('I\'m actually just about to leave Lyphia. I\'m going to see my girlfriend on Safonia for the first time!!!');
