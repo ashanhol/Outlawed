@@ -123,7 +123,7 @@ bot.dialog('/canVent', [
 
         }
         else if(results.response.toLowerCase().includes('human')){
-            session.beginDialog('/human');
+            session.beginDialog('/etc', true);
 
         }
         else{
@@ -137,8 +137,16 @@ bot.dialog('/canVent', [
 //-------------------
 /*User answers not lyphian, safonian, or human */
 bot.dialog('/etc', [
-    function (session) {
-        builder.Prompts.confirm(session, 'Oh... I\'ve never heard of you, sorry. You\'re not anti-Safonic, are you?');
+    function (session, args) {
+        //args distinguishes sending "human" response or "etc" response
+        if(args){
+            session.send('Oh uh.  Greetings? Ugh, I should have paid attention more in Interspecies Diplomacy...');
+            session.send('Humans are really formal right? You have the equivalent "arranged marriages" but no "hookups" outside of that, right? So you kinda get it.');
+            builder.Prompts.confirm(session, 'Well whatever you are, you\'re not anti-Safonic are you?');
+        }
+        else{
+            builder.Prompts.confirm(session, 'Oh... I\'ve never heard of you, sorry. You\'re not anti-Safonic, are you?');
+        }
     },
     function (session, results) {
         //space homophobic
