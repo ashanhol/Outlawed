@@ -201,6 +201,79 @@ bot.dialog('/antisafonic', [
     }
 ]);
 
+/*User's species is lyphian*/
+bot.dialog('/lyphian', [
+	function (session){
+		builder.Prompts.choice(session,'Oh no way me too. Where you from?',['Xatse','Sonae','Thonra']);
+	},
+	function (session, results){
+		if(results.response.entity == 'Xatse')
+		{
+			session.beginDialog('/xatse');
+		} 
+		else if(results.response.entity == 'Sonae'){
+			session.beginDialog('/sonae');
+		} 
+		else{
+			session.beginDialog('/thonra');
+		}
+	}
+]);
+
+bot.dialog('/xatse', [
+	function(session){
+		session.send('Oh my &ast;DEITY&ast; that\'s awesome!');
+		session.send('I\'ve always wanted to go there.');
+		session.send('That\'s where they film Outlaws and In-laws right???  You must have seen it right? Have you seen it filmed?');
+		session.send('It\'s been banned a bunch where I\'m from for being too "progressive". Some people (like my parents) can\'t handle Lyphian and Safonian relationships. I mean, the Sonae/Safonic wars are SO OVER. I don\'t see what the big deal is.');
+		session.send('The episode "My Secret Life" changed everything. It\'s how I bonded with the person I\'m headed off to see. Well, that and an obscure Safonic show I\'m sure you\'ve never heard of. More species should practice the kind of cultural exchange we have. ;D ');
+		session.beginDialog('/shipBlueprint', 3);
+	}
+]);
+
+bot.dialog('/sonae', [
+	function(session){
+		session.send('Oh. Cool. My parents are from that region. Seems like everyone there is uptight about Safonians, huh?');
+		session.send('...');
+		session.send('Ok, I\'m sorry, that wasn\'t cool.  I\'ve never been there. I don\'t know how it really is. I\'m sorry if that was insensitive.');
+		session.send('I don\'t know how old you were when the Sonae/Safonic war happened...');
+		session.send('It really affected my parents. The Outlaw might have been repealed, but its effects are still felt. My parents can\'t see how we as a planet have changed.');
+		session.send('The Outlaw banned everything from Safonia so they\'re practically brainwashed with Anti-Safonic propaganda. It\'s kind of funny? In a sad way. We\'re connected with millions of galaxies with so many foreign species, why would you hold so much prejudice against one small group? Especially when they\'re as cool and amazing and well dressed as safoiuqefjk;i;ojaglkd ');
+		session.send('Whew ok &ast;sweats&ast;. I\'m just. Going to embarrass myself off the planet now. Bye.');
+		session.send('...');
+		session.send('Umm');
+		session.send('These readings look bad... Guess I was distracted taking off? I think I messed up the AWG engine bypass or something.');
+		session.send('I\'m not sure what\'s gonna happen but... it doesn\'t look good...');
+		session.endConversation('Thanks for listening to me. My home life was complicated and I really needed to talk to someone about it. ');
+	}
+]);
+bot.dialog('/thonra', [
+	function(session){
+		session.send('Oh. That\'s interesting, me too. Considering how many galaxies this chat manages to connect, I didn\'t expect to meet someone from the same region as me.');
+		session.send('Not sure if you\'re familiar with Vanclor, but I\'m 30 flanktounits snorthweast of that in a small town.');
+		builder.Prompts.text(session, 'But anyway. No one really cares about us. You got a favorite show or something? We more or less get the same media as the rest of the Thonra region.');
+	},
+	function(session, results){
+		var oAndI = /outlaws\s?(and|&)\s?in-?\s?laws/i;
+		if(oAndI.test(results.response)){
+			session.send('Me too!!!! Who\'s your favorite character? Mine\'s Lannery, but my girlfriend likes Kh\'atyan.');
+			session.send('Yes I know, my username is Kh\'atyan because of that... so sappy. But honestly, all the characters are perfect. I really can\'t pick, it\'s not fair.');
+			session.send('I\'m actually just about to leave Lyphia. I\'m going to see my girlfriend on Safonia for the first time!!!');
+			session.send('I\'ll be sure to hit you up once I\'m there, talk later?');
+			session.send('Oh no. I thought I bypassed the AWG engine correctly but these readings aren\'t right... ');
+			session.send('I don\'t know what\'s about to happen but I don\'t think it will be good.');
+			session.send('Can you do me a favor? Like... a last request.');
+			session.send('My real name is Nay\'a Ionthae. Can you look up my family and tell them what happened to me? We don\'t have the greatest relationship. They\'re from Sonae so... ya know.');
+			session.send('But I still want them to know.');
+			session.endConversation('Thanks.');
+		}
+		else{
+			session.send('Huh. I thought I was pretty media savvy but I haven\'t heard of that.');
+			session.beginDialog('/shipBlueprint',4);
+		}
+	}
+]);
+
 //-------------------
 /*Blueprint*/
 //-------------------
@@ -215,10 +288,16 @@ bot.dialog('/shipBlueprint', [
                 '&ast;INTERGALACTIC LATTICE&ast; (GALAT) how to bypass the AWG Engine to rip my own Wormhole.')
                 builder.Prompts.text(session, 'Where are my manners, I\'ve been rambling on about space mechanics and never asked if you\'re into ships!');
                 break;
-            case 2: 
+	        case 2: 
                 builder.Prompts.text(session, 'AAAAANyway do you know anything about space ships?');
                 break;
 
+			case 3:
+				builder.Prompts.text(session, 'Actually, I\'m headed over to Safonia now. You know anything about space ships?');
+				break;
+			case 4:
+				builder.Prompts.text(session, 'Ok then. You know anything about ships?');
+				break;
         }
     }, 
     function(session, results){
@@ -240,25 +319,46 @@ bot.dialog('/shipBlueprint', [
                 session.send('Wait...That doesn\'t look like it normally does.');
                 session.endConversation('The edges of the wormhole are all wobbly?');
                 break;
+	        case 3:
+            case 4:
+            	session.send('Do you see that square button? That changes the mode of the engine from Reserve to Charge. I think the Reserve Mode is what I need.');
+            	session.send('So I\'ll just set that and... ');
+            	session.endConversation('Uhhhh I\'m not sure why those flashy lights are coming out of the wormhole that\'s... pretty weird...');
+            	break;
             }
         }
         else{ //doesn't know ship name
             session.send('Haha it\'s cool if you don\'t actually know much about ships. My ship here is a 20XD6 Staripper. But I named her Lannery.');
             switch(session.dialogData.blueprintThread){
-                case 1: 
-                    session.send('My parents tried to stop me but I\'m too smart for them! I actually want to be a mechanic someday.');
-                    session.send('Ok, I made the changes. Should\'ve fixed the ship, time to take off! Wish me luck!');
-                    session.send('...');
-                    session.send('Oh no. Oh &ast;EXCREMENT.&ast;');
-                    session.endConversation('I hate to admit it, but uh. I can\'t figure out these readings. I messed up the bypass somehow? This looks bad... ');
-                    break;
-                case 2: 
-                    session.send('&ast;EXCREMENT.&ast;, something\'s going wrong with my ship.');
-                    session.send('Could you do me a favor? Could you try and find Thea Rignomar and uh. Tell her I\'m sorry. I\'m sorry I couldn\'t make it.');
-                    session.send('Thanks. I know Safonia is a big planet but. She meant a lot to me.');
-                    session.endConversation('You seem cool. If only we had more time to talk...');
-                    break;
+            case 1:
+	            session.send('My parents tried to stop me but I\'m too smart for them! I actually want to be a mechanic someday.');
+    	        session.send('Ok, I made the changes. Should\'ve fixed the ship, time to take off! Wish me luck!');
+        	    session.send('...');
+            	session.send('Oh no. Oh &ast;EXCREMENT.&ast;');
+            	session.endConversation('I hate to admit it, but uh. I can\'t figure out these readings. I messed up the bypass somehow? This looks bad... ');
+            	break;
+	        case 2: 
+                session.send('&ast;EXCREMENT.&ast;, something\'s going wrong with my ship.');
+                session.send('Could you do me a favor? Could you try and find Thea Rignomar and uh. Tell her I\'m sorry. I\'m sorry I couldn\'t make it.');
+                session.send('Thanks. I know Safonia is a big planet but. She meant a lot to me.');
+                session.endConversation('You seem cool. If only we had more time to talk...');
+                break;
+            case 3:
+            	session.send('Yeah, after the Outlaws and In-laws character... I\'m such a nerd.');
+            	session.send('Ok. Maybe juggling taking off and gushing about Outlaws and In-laws wasn\'t the best idea.');
+            	session.send('The readings on my ship don\'t look too good...');
+            	session.endConversation('...And I was really looking forward to watching the next episode with her once I got there.');
+            	break;
+            case 4:
+            	session.send('So. It\'s been real I guess.');
+            	session.send('You managed to catch me at a weird time,  I\'m actually about to leave the planet?');
+            	session.send('I should go do that. Bye.');
+            	session.send('Well, the readings on my ship don\'t look too good...');
+            	session.send('I\'ve. Um. Never been particularly attached to Thonra. I honestly didn\'t think I\'d ever be coming back, but...');
+            	session.endConversation('... Well, I hope you have fonder memories of it than I do.');
+            	break;
             }
+            
         }
     }
 ]);
