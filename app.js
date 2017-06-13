@@ -33,7 +33,8 @@ bot.dialog('/', [
         builder.Prompts.text(session, 'Oh! Hi! I wasn\'t sure if the translation software was working. What\'s your name?');
     },
     function (session, results) {
-        builder.Prompts.text(session, 'Hi ' +  results.response + '! That\'s a cool name. I\'m not sure if you could pronounce my real name, but you can call me Kh\'atyan.');
+    	session.userData.name = results.response;
+        builder.Prompts.text(session, 'Hi ' +  session.userData.name + '! That\'s a cool name. I\'m not sure if you could pronounce my real name, but you can call me Kh\'atyan.');
     },
     function (session, results) {
         if(results.response.toLowerCase().includes('nay\'a ionthae')){
@@ -49,8 +50,265 @@ bot.dialog('/', [
 //-------------------
 bot.dialog('/endGame', [
     function (session) {
-        session.send('This is the endgame');
+        session.send('Uh.');
+        session.send('What the &ast;BODILY SECRETIONS&ast;?');
+        session.send('How the &ast;PROCREATIVE ACTIVITY&ast; do you know my name??? Do I know you?');
+        builder.Prompts.text(session, 'Where are you from?');
+    },
+    function (session, results) {
+    	if(results.response.toLowerCase().includes('safonia')){
+            session.beginDialog('/endSafonia');
+        }
+        else if(results.response.toLowerCase().includes('lyphia')){
+            session.send('What?');
+            session.send('I don\'t know anyone named %s', session.userData.name);
+            session.send('Seriously, who are you?');
+            session.send('Did... did my parents put you up to this? Because you can tell them I\'m not interested. I\'ve made up my mind. ');
+            session.endConversation('This was really creepy. Please don’t contact me again.');
+        }
+        else{
+        	session.send('Ok I don\'t know anyone from %s. I don\'t know how you know me but I definitely don\'t know you... ', results.response);
+        	session.send('This is really really creepy.');
+        	session.endConversation('I\'m leaving now. Please don\'t try to talk to me again?');
+        }
     }
+]);
+
+bot.dialog('/endSafonia', [
+	function (session){
+		session.send('Wait, really?');
+		builder.Prompts.text(session, 'Uh. Should I know you for any reason?');
+	},
+	function (session, results) {
+		if(results.response.toLowerCase().includes('thea rignomar')){
+			session.beginDialog('/thea');
+		}
+		else{
+			session.send('Uh... are you lying to me? ');
+			session.send('I\'m sorry, this is really weird. ');
+			session.endConversation('I\'m just gonna go now I think.');
+		}
+	}
+]);
+
+bot.dialog('/thea', [
+	function (session){
+		session.send('Oh my &ast;DEITY&ast;!!!! You know Thea??? ');
+		session.send('And she\'s talked about me?? Awwwww.....');
+		session.send('Haha this is so weird but I\'m on my way to visit her right now.');
+		session.send('We were supposed to meet up next month actually but uh... my parents found out about that. She\'s probably told you a little about them?');
+		session.send('Well. I guess "found out" isn\'t really the right word. I kind of... told them. ');
+		session.send('Ugh it was so stupid... They were just saying such awful things and I got so mad and I...');
+		session.send('I guess I thought I could change their minds, or something. I kept telling myself that it was just how they were raised.');
+		session.send('Well, anyway. They didn\'t change their minds. So I\'m coming sooner.');
+		session.send('Please don\'t tell Thea about this. I mean I\'ll tell her eventually but I kind of want the first time I see her to just be... happy, you know? ');
+		session.send('My parents took the AWG engine out of my ship to stop me from going but who cares!!! I can just do it manually!');
+		session.send('Aaaand there we go, got the wormhole open...');
+		session.send('&ast;EXCREMENT&ast;. That definitely doesn’t look right. ');
+		builder.Prompts.confirm(session, 'Uhhh my spaceship\'s about to enter the wormhole and I don\'t know what to do?? Do you think you can help me? ');		
+	},
+	function (session, results){
+		if(results.response){
+			session.beginDialog('/canHelp');
+		}
+		else{
+			session.send('Ok uh... guess we\'ll see what happens then...');
+			session.send('If I don\'t make it can you... can you tell Thea what happened? ');
+			session.endConversation('I\'m glad I got to meet you, at least.');
+		}
+	}
+]);
+
+bot.dialog('/canHelp', [
+	function (session){
+		session.userData.problem = Math.floor(Math.random()*3.0);
+		session.userData.solution = {'Levers':false, 'Button': false, 'Knob': false}
+		session.userData.firstSolution = true;
+		session.send('Thank you thank you thank you');
+		switch(session.userData.problem){
+			case 0:
+				session.send('So my engine\'s making a noise like an earthquake and the edges of the wormhole are all wobbly... I have no idea why...');
+				break;
+			case 1:
+				session.send('So my engine\'s making a noise like an earthquake and flashy lights are coming out of the wormhole... I have no idea why...');
+				break;
+			case 2:
+				session.send('So the edges of the wormhole are all wobbly and flashy lights are coming out of it... I have no idea why...');
+				break;
+		}
+		session.send('I\'m in a 20XD6 Staripper, here\'s a blueprint of the engine.');
+		var blueprint = new builder.Message(session);
+        blueprint.attachments([
+            new builder.HeroCard(session)
+            .subtitle('Blueprint')
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/endgame/static/images/blueprintBlank.png?raw=true')])
+        ]);
+        session.send(blueprint);
+		session.beginDialog('/fixShip');
+	}
+]);
+
+bot.dialog('/fixShip', [
+	function (session){
+		if(session.userData.firstSolution){
+			builder.Prompts.choice(session, 'What should I do first?', ['Levers','Button','Knob']);
+		}
+		else{
+			builder.Prompts.choice(session, 'What should I do next?', ['Levers','Button','Knob']);
+		}
+		
+	},
+	function(session, results){
+		if(results.response.entity== 'Levers'){
+			session.beginDialog('/levers');
+		}
+		else if(results.response.entity== 'Button'){
+			session.beginDialog('/button');
+		}
+		else{
+			session.beginDialog('/knob');
+		}
+	}
+]);
+
+bot.dialog('/levers', [
+	function(session){
+		var blueprint = new builder.Message(session);
+        blueprint.attachments([
+            new builder.HeroCard(session)
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/master/static/images/blueprintXtop.png?raw=true')]),
+            new builder.HeroCard(session)
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/master/static/images/blueprintXbottom.png?raw=true')])
+            .subtitle('Here\'s my options for the levers.')
+        ]);
+        session.send(blueprint);
+		builder.Prompts.choice(session, 'Which one should I flip?', ['Top','Bottom']);
+	},
+	function(session, results){
+		if(results.response.entity=='Top'){
+			//correct lever
+			session.userData.solution['Levers']=true;
+		}
+		session.beginDialog('/checkSolution');
+	}
+]);
+
+bot.dialog('/button', [
+	function(session){
+		var blueprint = new builder.Message(session);
+        blueprint.attachments([
+            new builder.HeroCard(session)
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/master/static/images/blueprintSQreserve.png?raw=true')]),
+            new builder.HeroCard(session)
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/master/static/images/blueprintSQcharge.png?raw=true')])
+            .subtitle('Here\'s the modes this button can be in.')
+        ]);
+        session.send(blueprint);
+		builder.Prompts.choice(session, 'What mode should it be in?', ['Reserve', 'Charge']);
+	},
+	function(session, results){
+		if(results.response.entity=='Charge'){
+			//correct button
+			session.userData.solution['Button']=true;
+		}
+
+		session.beginDialog('/checkSolution');
+
+	}
+]);
+
+bot.dialog('/knob', [
+	function(session){
+		var blueprint = new builder.Message(session);
+        blueprint.attachments([
+            new builder.HeroCard(session)
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/master/static/images/blueprintCclockwise.png?raw=true')]),
+            new builder.HeroCard(session)
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/master/static/images/blueprintCcounterclockwise.png?raw=true')])
+            .subtitle('Here\'s how this knob can turn.')
+        ]);
+        session.send(blueprint);
+		builder.Prompts.choice(session, 'Which way should I turn it? ', ['Clockwise', 'Counterclockwise']);
+	},
+	function(session, results){
+		if(results.response.entity=='Clockwise'){
+			//correct knob
+			session.userData.solution['Knob']=true;
+		}
+
+		session.beginDialog('/checkSolution');
+	}
+]);
+
+bot.dialog('/checkSolution', [
+	function(session){
+		if(!session.userData.firstSolution){
+			var correct = false;
+			switch(session.userData.problem){
+				case 0:
+					//Correct solution(earthquake, wobbly): levers top + knob clockwise 
+					if(session.userData.solution['Levers'] && session.userData.solution['Knob']){
+						correct = true;
+					}
+					break;
+				case 1:
+					//Correct solution(earthquake, lights): levers top + button charge
+					if(session.userData.solution['Levers']&&session.userData.solution['Button']){
+						correct = true;
+					}
+					break;
+				case 2:
+					//Correct solution(lights, wobbly): knob clockwise + button charge
+					if(session.userData.solution['Knob']&&session.userData.solution['Button']){
+						correct = true;
+					}
+					break;
+			}
+			if(correct){
+				session.beginDialog('/correctSolution');
+			}
+			else{
+				session.beginDialog('/incorrectSolution');
+			}
+		}
+		else{
+			session.userData.firstSolution = false;
+			session.beginDialog('/incompleteSolution');
+		}
+	}	
+]);
+
+bot.dialog('/incompleteSolution', [
+	function(session){
+		builder.Prompts.confirm(session, 'Ok, did that. Anything else?');
+	},
+	function(session, results){
+		if(results.response){
+			session.beginDialog('/fixShip');
+		}
+		else{
+			session.beginDialog('/incorrectSolution');
+		}
+	}
+]);
+
+bot.dialog('/incorrectSolution', [
+	function (session){
+		session.send('Well uh');
+		session.send('I don\'t think that looks much better actually?? I\'m out of time though...');
+		session.send('If I don\'t make it can you... can you tell Thea what happened? ');
+		session.endConversation('Thanks for trying, at least.');
+	}
+]);
+bot.dialog('/correctSolution', [
+	function (session){
+		session.send('Oh thank &ast;DEITY&ast; that looks so much better.');
+		session.send('You know how people think if you mess up a wormhole it can take you back in time to when it was created? So you just keep looping through it forever.');
+		session.send('lol of course you do, they\'ve only made like a million movies about that. I always wondered if that was true. I guess I almost found out... ');
+		session.send('Pretty happy to let it be a mystery forever now! I don’t know what I would\'ve done if you weren\'t here... ');
+		session.send('Thank you so much, %s', session.userData.name);
+		session.endConversation('I guess I’ll see you soon!!!');
+	}
 ]);
 
 //-------------------
