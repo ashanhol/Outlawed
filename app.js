@@ -315,12 +315,26 @@ bot.dialog('/shipBlueprint', [
             //TODO: PUT BLUEPRINT PIC IN
             switch(session.dialogData.blueprintThread){
             case 1:
+                var msg = new builder.Message(session);
+                msg.attachments([
+                    new builder.HeroCard(session)
+                        .subtitle('Lever Blueprint')
+                        .images([builder.CardImage.create(session, 'https://raw.githubusercontent.com/ashanhol/Outlawed/master/static/images/blueprintXbottom.png')])
+                    ]);
+                session.send(msg);
                 session.send('You see the X-like thing? Those are levers. Right now it\'s set to direct the '+
                 'Ytterbium into the AWG, but if I flip the bottom switch, it will redirect it... ');
                 session.send('Got it! Yes! I felt the engine spark to life! I\'m opening a wormhole now... ');
                 session.endConversation('Oh no. That wasn\'t a spark. More like a quake...');
                 break;
             case 2: 
+                var msg = new builder.Message(session);            
+                msg.attachments([
+                    new builder.HeroCard(session)
+                        .subtitle('Knob Blueprint')
+                        .images([builder.CardImage.create(session, 'https://raw.githubusercontent.com/ashanhol/Outlawed/master/static/images/blueprintCcounterclockwise.png')])
+                    ]);
+                session.send(msg);
                 session.send('Do you see the circle thing? It\'s a knob that transfers power from the thrusters '+
                 'into the Wormhole Stability Matrix. If I just turn it counter-clockwise... ');
                 session.send('Ok awesome, I see it opening!');
@@ -329,6 +343,13 @@ bot.dialog('/shipBlueprint', [
                 break;
 	        case 3:
             case 4:
+                var msg = new builder.Message(session);            
+                msg.attachments([
+                    new builder.HeroCard(session)
+                        .subtitle('Button Blueprint')
+                        .images([builder.CardImage.create(session, 'https://raw.githubusercontent.com/ashanhol/Outlawed/master/static/images/blueprintSQreserve.png')])
+                    ]);
+                session.send(msg);
             	session.send('Do you see that square button? That changes the mode of the engine from Reserve to Charge. I think the Reserve Mode is what I need.');
             	session.send('So I\'ll just set that and... ');
             	session.endConversation('Uhhhh I\'m not sure why those flashy lights are coming out of the wormhole that\'s... pretty weird...');
