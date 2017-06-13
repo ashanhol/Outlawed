@@ -137,6 +137,13 @@ bot.dialog('/canHelp', [
 				break;
 		}
 		session.send('I\'m in a 20XD6 Staripper, here\'s a blueprint of the engine.');
+		var blueprint = new builder.Message(session);
+        blueprint.attachments([
+            new builder.HeroCard(session)
+            .subtitle('Blueprint')
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/endgame/static/images/blueprintBlank.png?raw=true')])
+        ]);
+        session.send(blueprint);
 		session.beginDialog('/fixShip');
 	}
 ]);
@@ -166,6 +173,15 @@ bot.dialog('/fixShip', [
 
 bot.dialog('/levers', [
 	function(session){
+		var blueprint = new builder.Message(session);
+        blueprint.attachments([
+            new builder.HeroCard(session)
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/master/static/images/blueprintXtop.png?raw=true')]),
+            new builder.HeroCard(session)
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/master/static/images/blueprintXbottom.png?raw=true')])
+            .subtitle('Here\'s my options for the levers.')
+        ]);
+        session.send(blueprint);
 		builder.Prompts.choice(session, 'Which one should I flip?', ['Top','Bottom']);
 	},
 	function(session, results){
@@ -179,6 +195,15 @@ bot.dialog('/levers', [
 
 bot.dialog('/button', [
 	function(session){
+		var blueprint = new builder.Message(session);
+        blueprint.attachments([
+            new builder.HeroCard(session)
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/master/static/images/blueprintSQreserve.png?raw=true')]),
+            new builder.HeroCard(session)
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/master/static/images/blueprintSQcharge.png?raw=true')])
+            .subtitle('Here\'s the modes this button can be in.')
+        ]);
+        session.send(blueprint);
 		builder.Prompts.choice(session, 'What mode should it be in?', ['Reserve', 'Charge']);
 	},
 	function(session, results){
@@ -194,6 +219,15 @@ bot.dialog('/button', [
 
 bot.dialog('/knob', [
 	function(session){
+		var blueprint = new builder.Message(session);
+        blueprint.attachments([
+            new builder.HeroCard(session)
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/master/static/images/blueprintCclockwise.png?raw=true')]),
+            new builder.HeroCard(session)
+            .images([builder.CardImage.create(session, 'https://github.com/ashanhol/Outlawed/blob/master/static/images/blueprintCcounterclockwise.png?raw=true')])
+            .subtitle('Here\'s how this knob can turn.')
+        ]);
+        session.send(blueprint);
 		builder.Prompts.choice(session, 'Which way should I turn it? ', ['Clockwise', 'Counterclockwise']);
 	},
 	function(session, results){
