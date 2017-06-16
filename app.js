@@ -431,13 +431,31 @@ bot.dialog('/safonian', [
         session.send('Oh really????? Haha no way, I\'m on my way to meet a Safonian right now. I mean that\'s why '+
         'I\'m in this mess in the first place, we were bonding over the show Glitz and ');
         session.send('Wait isn\'t it on now? How could you be missing the weekly viewing? ');
-        session.send(' Oh uh, I mean.');
+        session.send('Oh uh, I mean.');
         session.send('I\'m sorry that was really uncool of me. I guess I should have realized not all Safonians ' +
         'are into the same things. I mean I know some prefer Space Flannel and like some like Space Makeup...  ');
-        session.send('Ok I\'m just going to stop before I embarrass myself more.');
-        session.beginDialog('/shipBlueprint', 2); //to to ship blueprint
-
-    }
+        session.send('Sorry.  I\'m just so excited to finally see Safonia...');
+        session.send('My uh. The person I\'m going to see has been telling me so much about it.');
+        builder.Prompts.text(session, 'I\'ve never been to a planet that densely populated, it sounds exciting. She lives in a coastal city and she snuck me in on holovid to see a game of uhhhhhh what\'s it called? You know, the really popular sport…');
+    }, 
+	function(session, results){
+  		if(results.response.toLowerCase().includes('hover derby')){
+			session.send('Yeah that!!! It was at night and they made a track out over the water by growing that bioluminescent kelp that\'s really common there.');
+			session.send('And everyone\'s hoverskates had colorful lights on them and it was so…');
+			session.send(' I really wish I could see it in person.');
+			session.send('Well I guess I can soon!! Really soon, wow.');
+			session.send('Wait. Oh no. Something\'s gone wrong with my ship.');
+			session.send('Could you do me a favor? Could you try and find Thea Rignomar and uh. Tell her I\'m sorry. I\'m sorry I couldn\'t make it.');
+            session.send('Thanks. I know Safonia is a big planet but. She meant a lot to me.');
+            session.endConversation('You seem cool. If only we had more time to talk...');
+		}
+		else{
+			session.send(' No, that\'s not right… uhhh…');
+			session.send('Hover derby! That\'s what it\'s called.');
+			session.send('Haha you probably don\'t want to hear me ramble about that though.');
+		    session.beginDialog('/shipBlueprint', 2); //to to ship blueprint
+		}
+	}
 ]);
 
 //space homophobic
@@ -576,7 +594,6 @@ bot.dialog('/shipBlueprint', [
         //knows ship name
         if(results.response.toLowerCase().includes('20xd6 staripper')){
             session.send('Oh wow that\'s what I\'ve got here. It\'s cool to meet a fellow enthusiast. Here\'s the blueprint for what I\'m looking at.');
-            //TODO: PUT BLUEPRINT PIC IN
             switch(session.dialogData.blueprintThread){
             case 1:
                 var msg = new builder.Message(session);
@@ -631,10 +648,9 @@ bot.dialog('/shipBlueprint', [
             	session.endConversation('I hate to admit it, but uh. I can\'t figure out these readings. I messed up the bypass somehow? This looks bad... ');
             	break;
 	        case 2: 
-                session.send('&ast;EXCREMENT.&ast;, something\'s going wrong with my ship.');
-                session.send('Could you do me a favor? Could you try and find Thea Rignomar and uh. Tell her I\'m sorry. I\'m sorry I couldn\'t make it.');
-                session.send('Thanks. I know Safonia is a big planet but. She meant a lot to me.');
-                session.endConversation('You seem cool. If only we had more time to talk...');
+                session.send('&ast;EXCREMENT&ast;, something\'s going wrong with my ship.');
+                session.send('No no no there’s still so much I had to do. So much I had to see with her. So many more shows to watch and gossip to share...');
+                session.endConversation('There’s so much of Safonia I wanted to experience. I guess. Keep me in mind at your next hover derby game.');
                 break;
             case 3:
             	session.send('Yeah, after the Outlaws and In-laws character... I\'m such a nerd.');
